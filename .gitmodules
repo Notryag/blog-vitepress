@@ -1,0 +1,3 @@
+[submodule "myBolg"]
+	path = myBolg
+	url = https://github.com/Notryag/myBolg
