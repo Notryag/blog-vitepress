@@ -10,3 +10,4 @@ dist
 /**/resource
 pnpm-global
 .DS_Store
+.vitepress/cache
