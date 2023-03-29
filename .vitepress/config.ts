@@ -6,6 +6,7 @@ const { nav, sidebar } = genNav({
 })
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
+  base: "/blog-vitepress/",
   title: "My Note",
   description: "A VitePress Site",
   themeConfig: {
