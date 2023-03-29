@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "@types/node": "^18.15.0",
-    "typescript": "^4.9.5"
+    "typescript": "^4.9.5",
+    "vitepress-auto-nav-sidebar": "^0.0.5",
+    "vitepress-auto-navigation": "^0.0.3"
   }
 }
