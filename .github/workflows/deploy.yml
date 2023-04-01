@@ -21,6 +21,8 @@ jobs:
         with:
           node-version: 16
           cache: pnpm
+        run: |
+          npm install -g pnpm
       - run: pnpm ci
       - name: Build
         run: pnpm run docs:build
