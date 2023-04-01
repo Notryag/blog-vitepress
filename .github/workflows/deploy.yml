@@ -19,7 +19,6 @@ jobs:
           fetch-depth: 0
           submodules: true
 
-      - name: Checkout submodules
       - uses: pnpm/action-setup@v2
         with:
           version: 7.26.3
