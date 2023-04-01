@@ -18,9 +18,8 @@ jobs:
         with:
           fetch-depth: 0
       - name: Update submodules
-      - run: |
-        git submodule sync --recursive
-        git submodule update --init --recursive
+        uses: textbook/git-checkout-submodule-action@2.1.1
+      - name: Checkout submodules
       - uses: pnpm/action-setup@v2
         with:
           version: 7.26.3
