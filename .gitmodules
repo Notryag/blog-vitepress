@@ -1,3 +1,6 @@
 [submodule "myBolg"]
 	path = myBolg
 	url = https://github.com/Notryag/myBolg
+[submodule "myBlog"]
+	path = myBlog
+	url = https://github.com/Notryag/myBlog.git

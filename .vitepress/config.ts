@@ -2,7 +2,7 @@ import { defineConfig } from "vitepress"
 import genNav from "vitepress-auto-navigation"
 
 const { nav, sidebar } = genNav({
-  baseurl: "./myBolg",
+  baseurl: "./myBlog",
 })
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
