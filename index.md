@@ -9,7 +9,7 @@ hero:
   actions:
     - theme: brand
       text: Get Start
-      link: /myBolg/css/css
+      link: /myBlog/css/css
 
 
 features:

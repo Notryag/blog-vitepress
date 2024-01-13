@@ -8,8 +8,8 @@
     "docs:preview": "vitepress preview"
   },
   "dependencies": {
-    "@types/node": "^18.15.11",
-    "typescript": "^4.9.5",
+    "@types/node": "^20.11.0",
+    "typescript": "^5.3.3",
     "vitepress-auto-nav-sidebar": "^0.0.5",
     "vitepress-auto-navigation": "^0.0.4"
   }
