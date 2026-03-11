@@ -27,6 +27,14 @@ function escapeMarkdown(value) {
   return value.replace(/\\/g, "\\\\").replace(/`/g, "\\`")
 }
 
+function escapeHtml(value) {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+}
+
 function createSnippetPage(relativePath) {
   const sourcePath = join(BLOG_DIR, relativePath)
   const extension = extname(relativePath).toLowerCase()
@@ -36,6 +44,8 @@ function createSnippetPage(relativePath) {
   const outputPath = join(OUTPUT_DIR, relativePath.replace(/\.[^/.]+$/, ".md"))
   const outputDir = dirname(outputPath)
   const originalPath = toPosixPath(sourcePath)
+  const pathSegments = relativePath.split("/")
+  const lineCount = code === "" ? 0 : code.split(/\r?\n/).length
 
   mkdirSync(outputDir, { recursive: true })
   writeFileSync(
@@ -43,11 +53,27 @@ function createSnippetPage(relativePath) {
     `---
 title: ${JSON.stringify(title)}
 outline: false
+pageClass: snippet-page
 ---
+
+<div class="snippet-hero">
+  <span class="snippet-hero__chip">${escapeHtml(language.toUpperCase())}</span>
+  <span class="snippet-hero__chip">${lineCount} lines</span>
+  <span class="snippet-hero__chip">${escapeHtml(pathSegments[0] ?? "snippet")}</span>
+</div>
 
 # ${escapeMarkdown(title)}
 
-- Source: \`${escapeMarkdown(originalPath)}\`
+<div class="snippet-meta">
+  <div class="snippet-meta__item">
+    <span class="snippet-meta__label">Source</span>
+    <code>${escapeHtml(originalPath)}</code>
+  </div>
+  <div class="snippet-meta__item">
+    <span class="snippet-meta__label">Route</span>
+    <code>/snippets/${escapeHtml(relativePath.replace(/\.[^/.]+$/, ""))}</code>
+  </div>
+</div>
 
 \`\`\`\`${language}
 ${code}
