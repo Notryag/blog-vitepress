@@ -46,6 +46,17 @@ function createSnippetPage(relativePath) {
   const originalPath = toPosixPath(sourcePath)
   const pathSegments = relativePath.split("/")
   const lineCount = code === "" ? 0 : code.split(/\r?\n/).length
+  const section = pathSegments[0] ?? "snippet"
+  const sectionRoute = `/myBlog/${section}/`
+  const snippetRoute = `/snippets/${relativePath.replace(/\.[^/.]+$/, "")}`
+  const breadcrumbItems = pathSegments.map((segment, index) => {
+    const href =
+      index === pathSegments.length - 1
+        ? snippetRoute
+        : `/snippets/${pathSegments.slice(0, index + 1).join("/")}`
+
+    return `<a class="snippet-breadcrumb__link" href="${escapeHtml(href)}">${escapeHtml(segment)}</a>`
+  })
 
   mkdirSync(outputDir, { recursive: true })
   writeFileSync(
@@ -56,10 +67,16 @@ outline: false
 pageClass: snippet-page
 ---
 
+<div class="snippet-breadcrumb">
+  <a class="snippet-breadcrumb__link" href="${escapeHtml(sectionRoute)}">Back to ${escapeHtml(section)}</a>
+  <span class="snippet-breadcrumb__divider">/</span>
+  ${breadcrumbItems.join('\n  <span class="snippet-breadcrumb__divider">/</span>\n  ')}
+</div>
+
 <div class="snippet-hero">
   <span class="snippet-hero__chip">${escapeHtml(language.toUpperCase())}</span>
   <span class="snippet-hero__chip">${lineCount} lines</span>
-  <span class="snippet-hero__chip">${escapeHtml(pathSegments[0] ?? "snippet")}</span>
+  <span class="snippet-hero__chip">${escapeHtml(section)}</span>
 </div>
 
 # ${escapeMarkdown(title)}
@@ -71,7 +88,11 @@ pageClass: snippet-page
   </div>
   <div class="snippet-meta__item">
     <span class="snippet-meta__label">Route</span>
-    <code>/snippets/${escapeHtml(relativePath.replace(/\.[^/.]+$/, ""))}</code>
+    <code>${escapeHtml(snippetRoute)}</code>
+  </div>
+  <div class="snippet-meta__item">
+    <span class="snippet-meta__label">Section</span>
+    <a href="${escapeHtml(sectionRoute)}">${escapeHtml(sectionRoute)}</a>
   </div>
 </div>
 

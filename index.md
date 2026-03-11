@@ -3,21 +3,21 @@ layout: home
 
 hero:
   name: "My Note"
-  text: "基于 VitePress 的个人笔记站"
-  tagline: 站点外壳和 Markdown 内容分离，适合把博客内容托管在独立仓库中。
+  text: "把笔记、代码和实验放进同一个知识站"
+  tagline: Markdown 文章、JavaScript 片段、TypeScript 草稿和 HTML 示例现在都能在一个站点里被检索、导航和阅读。
   actions:
     - theme: brand
-      text: 项目说明
-      link: /docs/
+      text: 开始阅读
+      link: /myBlog/
     - theme: alt
-      text: GitHub
-      link: https://github.com/Notryag/blog-vitepress
+      text: 了解结构
+      link: /docs/
 
 features:
-  - title: 内容与站点解耦
-    details: 博客内容放在 myBlog 子模块中，站点仓库只负责构建、导航和部署。
-  - title: 自动导航
-    details: 通过 vitepress-auto-navigation 从 Markdown 目录生成 nav 和 sidebar，减少手工维护。
-  - title: 直接部署到 Pages
-    details: 提供 GitHub Actions workflow，push 到主分支后即可重新构建并发布。
+  - title: 文章和代码一起导航
+    details: Markdown 页面继续走 /myBlog 路由，.js/.ts/.html 则自动包装成 /snippets 页面，不再散落在仓库里。
+  - title: 阅读上下文不断裂
+    details: 进入代码示例页后仍然保留左侧分类导航，并补充来源路径、栏目入口和更清晰的代码展示。
+  - title: 维护方式足够轻
+    details: 内容仓库保持原样，站点只在构建前生成包装页，不需要手工维护额外的代码示例文档。
 ---
