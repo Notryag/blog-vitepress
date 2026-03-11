@@ -6,8 +6,11 @@ node_modules
 .vscode
 .idea
 dist
+snippets
+.vitepress/.temp
+.vitepress/cache
+.vitepress/dist
 /**/code
 /**/resource
 pnpm-global
 .DS_Store
-.vitepress/cache

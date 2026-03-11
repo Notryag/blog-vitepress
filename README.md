@@ -1,58 +1,42 @@
-# 文档记录
+# blog-vitepress
 
-通过`git`的`submodule`管理的 blog
+一个用于托管个人笔记站的 VitePress 外壳仓库。
 
-目标:
+Markdown 内容放在 `myBlog` 子模块中，当前仓库负责：
 
-- 如果子项目更新,此项目自动更新并且生成站点 ✔️
+- 站点配置
+- 自动生成导航
+- 代码示例包装页生成
+- GitHub Pages 部署
 
-## 步骤一
-
-1. 新建一个 vitepress 项目
-
-```bash
-npm install -D vitepress
-npx vitepress init
-```
-
-2. 新建 blog 的目录如`myBlog`
-   myBlog 是一个 markdown 构成的一个 git 文档项目
-
-平常放的记录都放在这个 git 项目中, 当然也可以不是另外一个项目, 直接放markdown文件, 但是这样做可以把文档和`vitepress`项目分开管理
+## 快速开始
 
 ```bash
-# 添加子项目
-git submodule add <git-repo-url> <submodule-local-path>
-# 拉取到本地
+git clone <repo-url>
+cd blog-vitepress
 git submodule update --init --recursive
+pnpm install
+pnpm dev
 ```
 
-3. 根据文件目录生成`nav`和`sidebar`
+## 目录结构
 
-```bash
-npm install vitepress-auto-navigation
-```
+- `myBlog/`：Markdown 内容仓库，使用 git submodule 管理
+- `.vitepress/`：VitePress 配置
+- `docs/`：项目说明页
+- `scripts/`：构建前生成代码示例页面
 
-然后在 vitepress 中的 config 文件中添加配置
+## 自动导航
 
-```typescript
-const { nav, sidebar } = genNav({
-  baseurl: "./myBlog",
-})
-...
+站点使用 `vitepress-auto-navigation` 根据 `myBlog` 目录自动生成 `nav` 和 `sidebar`。如果本地还没有拉取子模块，站点仍能启动，但不会显示笔记导航。
 
-themeConfig: {
-    nav,
-    sidebar,
-},
-```
+除了 Markdown 页面，站点还会在构建前扫描 `myBlog` 里的 `.js`、`.ts` 和 `.html` 文件，并自动生成 `snippets/` 下的包装页，让这些代码文件也能通过导航访问。
 
+## 部署
 
-## 步骤二 submodule项目更新, 父项目也更新
+`.github/workflows/deploy.yml` 会在 `master` 分支收到 push 后自动：
 
-需要配置github actions, 基本原理是
-
-1. 通过子项目的actions克隆父项目,并且更新
-2. 父项目的actions通过push触发, 立即更新`vitepress`站点
-
-
+1. 拉取仓库和子模块
+2. 安装依赖
+3. 构建 VitePress 站点
+4. 发布到 GitHub Pages
