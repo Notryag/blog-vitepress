@@ -55,6 +55,12 @@ const autoNavigation = hasBlogContent
       },
     })
   : { nav: [], sidebar: {} }
+const snippetSidebar = Object.fromEntries(
+  Object.entries(autoNavigation.sidebar).map(([path, items]) => [
+    path.replace(/^\/myBlog\//, "/snippets/"),
+    items,
+  ]),
+)
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -77,6 +83,7 @@ export default defineConfig({
         },
       ],
       ...(hasBlogContent ? autoNavigation.sidebar : {}),
+      ...(hasBlogContent ? snippetSidebar : {}),
     },
     search: {
       provider: "local",
