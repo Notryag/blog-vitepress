@@ -76,6 +76,23 @@ notes
 
 `notespress` 会根据目录结构生成导航，并把代码文件挂到 `/snippets/...` 路由下。
 
+## 高级用法
+
+如果你希望把当前目录初始化成一个长期维护的本地项目，再使用：
+
+```bash
+notespress init
+```
+
+它会尽量保守地初始化当前目录：
+
+- 创建或合并 `package.json`
+- 写入 `dev`、`build`、`preview` 脚本
+- 添加 `.gitignore` 中的 `node_modules`、`dist`、`.blog-cli`
+- 如果根目录没有 `README.md` 或 `index.md`，创建一个起始首页
+
+如果要覆盖已有脚本或首页，可以加 `--force`。
+
 ## 仓库说明
 
 当前仓库除了发布 `notespress` 包，也保留了一个用于自用和演示的 `blog-vitepress` 站点壳。

@@ -2,6 +2,7 @@
 
 import { createServer, build, serve } from "vitepress"
 
+import { initNotespressProject } from "../lib/init.mjs"
 import { generateSnippetPages } from "../lib/snippets.mjs"
 import { prepareStandaloneWorkspace, resolveRepositoryRoot } from "../lib/standalone-site.mjs"
 
@@ -13,6 +14,7 @@ Usage:
   notespress dev [content-dir] [--port 5173] [--host 0.0.0.0]
   notespress preview [content-dir] [--port 4173]
   notespress prepare-content [content-dir] [--output-dir dir] [--route-base /myBlog]
+  notespress init [content-dir] [--force]   # optional project setup
 
 Aliases:
   build-site -> build
@@ -83,6 +85,30 @@ async function runPrepareContent(positionals, options) {
   process.stdout.write(`Generated ${result.count} snippet pages in ${result.outputDir}\n`)
 }
 
+async function runInit(positionals, options) {
+  const result = initNotespressProject(resolveContentDir(positionals, options), {
+    force: options.force === true,
+  })
+
+  process.stdout.write(`Initialized notespress in ${result.targetDir}\n`)
+
+  if (result.packageResult.changes.length > 0) {
+    process.stdout.write(`package.json: ${result.packageResult.changes.join(", ")}\n`)
+  }
+
+  if (result.gitignoreResult.additions.length > 0) {
+    process.stdout.write(`.gitignore: added ${result.gitignoreResult.additions.join(", ")}\n`)
+  }
+
+  if (result.readmeResult.created) {
+    process.stdout.write("README.md: created starter page\n")
+  }
+
+  process.stdout.write("\nNext steps:\n")
+  process.stdout.write("  1. Run `npm install` or `pnpm install`\n")
+  process.stdout.write("  2. Run `npx notespress dev` or `pnpm dev`\n")
+}
+
 async function runBuild(positionals, options) {
   const workspace = prepareStandaloneWorkspace({
     contentDir: resolveContentDir(positionals, options),
@@ -144,6 +170,9 @@ async function main() {
   const { command, options, positionals } = parseArgs(process.argv.slice(2))
 
   switch (command) {
+    case "init":
+      await runInit(positionals, options)
+      return
     case "build":
     case "build-site":
       await runBuild(positionals, options)
