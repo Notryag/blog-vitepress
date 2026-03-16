@@ -1,20 +1,47 @@
 {
+  "name": "notespress",
+  "version": "0.1.0",
+  "description": "Generate a VitePress blog site directly from a Markdown notes directory.",
+  "license": "MIT",
   "packageManager": "pnpm@10.30.3",
   "type": "module",
+  "files": [
+    "assets",
+    "bin",
+    "lib",
+    "README.md"
+  ],
+  "keywords": [
+    "blog",
+    "cli",
+    "markdown",
+    "notes",
+    "vitepress"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": {
+    "notespress": "./bin/blog-cli.mjs"
+  },
   "scripts": {
     "prepare:content": "node scripts/generate-snippets.mjs",
     "dev": "pnpm prepare:content && vitepress dev",
     "build": "pnpm prepare:content && vitepress build",
     "preview": "vitepress preview",
+    "notespress:dev": "node ./bin/blog-cli.mjs dev myBlog",
+    "notespress:build": "node ./bin/blog-cli.mjs build myBlog",
+    "notespress:preview": "node ./bin/blog-cli.mjs preview myBlog",
     "docs:build": "pnpm build",
     "docs:preview": "pnpm preview"
   },
   "dependencies": {
-    "@types/node": "^25.4.0",
-    "typescript": "^5.9.3",
+    "vitepress": "^1.6.4",
+    "vue": "^3.5.13",
     "vitepress-auto-navigation": "^0.2.0"
   },
   "devDependencies": {
-    "vitepress": "^1.6.4"
+    "@types/node": "^25.4.0",
+    "typescript": "^5.9.3"
   }
 }

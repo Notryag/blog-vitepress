@@ -1,42 +1,86 @@
-# blog-vitepress
+# notespress
 
-一个用于托管个人笔记站的 VitePress 外壳仓库。
+`notespress` 是一个把 Markdown 笔记目录直接生成为 VitePress 博客站点的 CLI。
 
-Markdown 内容放在 `myBlog` 子模块中，当前仓库负责：
+它默认把当前目录当作内容目录，自动生成导航、侧边栏和代码片段页面，不要求你手工维护 `.vitepress` 配置。
 
-- 站点配置
-- 自动生成导航
-- 代码示例包装页生成
-- GitHub Pages 部署
+## 安装
+
+```bash
+npm install -D notespress
+```
+
+一次性运行也可以：
+
+```bash
+pnpm dlx notespress build
+```
 
 ## 快速开始
 
+在你的 Markdown 笔记目录里执行：
+
 ```bash
-git clone <repo-url>
-cd blog-vitepress
-git submodule update --init --recursive
-pnpm install
-pnpm dev
+notespress dev
+notespress build
+notespress preview
 ```
 
-## 目录结构
+如果你没有全局安装，可以改用：
 
-- `myBlog/`：Markdown 内容仓库，使用 git submodule 管理
-- `.vitepress/`：VitePress 配置
-- `docs/`：项目说明页
-- `scripts/`：构建前生成代码示例页面
+```bash
+npx notespress dev
+npx notespress build
+npx notespress preview
+```
 
-## 自动导航
+## 默认行为
 
-站点使用 `vitepress-auto-navigation` 根据 `myBlog` 目录自动生成 `nav` 和 `sidebar`。如果本地还没有拉取子模块，站点仍能启动，但不会显示笔记导航。
+- 当前目录作为内容目录
+- 构建产物输出到 `dist/`
+- 临时工作区输出到 `.blog-cli/`
+- `.js`、`.ts`、`.html` 会自动生成 `snippets/` 页面
+- 不会把 `.vitepress` 配置写回你的笔记目录
 
-除了 Markdown 页面，站点还会在构建前扫描 `myBlog` 里的 `.js`、`.ts` 和 `.html` 文件，并自动生成 `snippets/` 下的包装页，让这些代码文件也能通过导航访问。
+## 常用命令
 
-## 部署
+```bash
+notespress dev [content-dir]
+notespress build [content-dir]
+notespress preview [content-dir]
+notespress prepare-content [content-dir]
+```
 
-`.github/workflows/deploy.yml` 会在 `master` 分支收到 push 后自动：
+示例：
 
-1. 拉取仓库和子模块
-2. 安装依赖
-3. 构建 VitePress 站点
-4. 发布到 GitHub Pages
+```bash
+notespress build .
+notespress build ./notes --out-dir ./site-dist
+notespress dev ./notes --port 3000
+notespress preview ./notes --port 4173
+```
+
+## 适用目录
+
+适合这类目录结构：
+
+```text
+notes
+├─ README.md
+├─ frontend
+│  ├─ react.md
+│  └─ vue.md
+└─ code
+   └─ demo.ts
+```
+
+`notespress` 会根据目录结构生成导航，并把代码文件挂到 `/snippets/...` 路由下。
+
+## 仓库说明
+
+当前仓库除了发布 `notespress` 包，也保留了一个用于自用和演示的 `blog-vitepress` 站点壳。
+
+仓库结构和本地开发说明放在：
+
+- [docs/index.md](/home/dev/workplace/github-repositories/blog-vitepress/docs/index.md)
+- [docs/repository.md](/home/dev/workplace/github-repositories/blog-vitepress/docs/repository.md)

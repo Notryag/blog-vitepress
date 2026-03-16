@@ -10,6 +10,7 @@ snippets
 .vitepress/.temp
 .vitepress/cache
 .vitepress/dist
+.blog-cli
 /**/code
 /**/resource
 pnpm-global
